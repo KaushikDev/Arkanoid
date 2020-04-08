@@ -16,7 +16,7 @@ let paddleOffsetBottom = 10;
 let rightPressed = false;
 let leftPressed = false;
 
-let brickWidth = 75;
+let brickWidth = 50;
 let brickHeight = 20;
 let brickPadding = 5;
 let brickOffsetTop = 30;
@@ -99,7 +99,7 @@ const collisionDetection = () => {
 const drawBall = () => {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#000";
+  ctx.fillStyle = "#757575";
   ctx.fill();
   // ctx.strokeStyle = "#000000";
   // ctx.stroke();
@@ -108,7 +108,7 @@ const drawBall = () => {
 const drawPaddle = () => {
   ctx.beginPath();
   ctx.rect(paddleX, cnvHeight - paddleHeight - paddleOffsetBottom, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#000";
   ctx.fill();
   // ctx.strokeStyle = "#000";
   // ctx.stroke();
@@ -117,7 +117,7 @@ const drawPaddle = () => {
 const drawBricks = () => {
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
-        (r % 2 === 0) ? (brickOffsetLeft = 0) : (brickOffsetLeft = brickWidth/3);
+        (r % 2 === 0) ? (brickOffsetLeft = 0) : (brickOffsetLeft = brickWidth/2);
         
       if (bricks[c][r].status == 1) {
         let brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
