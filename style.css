@@ -1,10 +1,17 @@
+@font-face{
+    src: url("./assets/fonts/Nunito-Regular.ttf");
+    font-family: "Nunito";
+  }
+
 *{
     padding: 0;
     margin: 0;
+    font-family: "Nunito", sans-serif;
 }
 
 canvas{
-    background: #FFF;
+    background: #000;
     display: block;
     margin: 0 auto;
+    font-family: "Nunito";
 }
