@@ -16,12 +16,12 @@ let paddleOffsetBottom = 10;
 let rightPressed = false;
 let leftPressed = false;
 
-let brickWidth = 50;
+let brickWidth = 60;
 let brickHeight = 20;
 let brickPadding = 5;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 0;
-let brickRowCount = 7;
+let brickRowCount = 10;
 let brickColumnCount = Math.floor(cnvWidth/(brickWidth+brickPadding));
 console.log("num of columns "+brickColumnCount)
 let score = 0;
@@ -137,14 +137,14 @@ const drawBricks = () => {
 };
 
 const drawLives = () => {
-  ctx.fontStyle = "16px Arial";
-  ctx.fillStyle = "#0095DD";
+  ctx.fontStyle = "20px Arial";
+  ctx.fillStyle = "#000";
   ctx.fillText("Lives : " + lives, cnvWidth - 65, 20);
 };
 
 const drawScore = () => {
   ctx.fontStyle = "16px Arial";
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#000";
   ctx.fillText("Score : " + score, 8, 20);
 };
 
