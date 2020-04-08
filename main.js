@@ -12,12 +12,13 @@ let dy = -5;
 let paddleHeight = 10;
 let paddleWidth = cnvWidth/4; //prev value 75
 let paddleX = (cnvWidth - paddleWidth) / 2;
+let paddleOffsetBottom = 10;
 let rightPressed = false;
 let leftPressed = false;
 
 let brickWidth = 75;
 let brickHeight = 20;
-let brickPadding = 10;
+let brickPadding = 5;
 let brickOffsetTop = 30;
 let brickOffsetLeft = 0;
 let brickRowCount = 7;
@@ -57,9 +58,17 @@ const mouseMoveHandler = (e) => {
   }
 };
 
+const touchMoveHandler = (e) => {
+  var relativeX = e.touches[0].screenX - cnv.offsetLeft;
+  if (relativeX > 0 && relativeX < cnvWidth) {
+    paddleX = relativeX - paddleWidth / 2;
+  }
+}
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("touchmove", touchMoveHandler, false);
 
 const collisionDetection = () => {
   for (let c = 0; c < brickColumnCount; c++) {
@@ -90,21 +99,25 @@ const collisionDetection = () => {
 const drawBall = () => {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#0095DD";
+  ctx.fillStyle = "#000";
   ctx.fill();
+  // ctx.strokeStyle = "#000000";
+  // ctx.stroke();
   ctx.closePath();
 };
 const drawPaddle = () => {
   ctx.beginPath();
-  ctx.rect(paddleX, cnvHeight - paddleHeight - 10, paddleWidth, paddleHeight);
+  ctx.rect(paddleX, cnvHeight - paddleHeight - paddleOffsetBottom, paddleWidth, paddleHeight);
   ctx.fillStyle = "#0095DD";
   ctx.fill();
+  // ctx.strokeStyle = "#000";
+  // ctx.stroke();
   ctx.closePath();
 };
 const drawBricks = () => {
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
-        r%2===0?brickOffsetLeft = 0: brickOffsetLeft = brickWidth/2;
+        (r % 2 === 0) ? (brickOffsetLeft = 0) : (brickOffsetLeft = brickWidth/3);
         
       if (bricks[c][r].status == 1) {
         let brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
@@ -113,8 +126,10 @@ const drawBricks = () => {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#EF5350";
         ctx.fill();
+       ctx.strokeStyle = "#000";
+        ctx.stroke();
         ctx.closePath();
       }
     }
@@ -146,7 +161,7 @@ const draw = () => {
   }
   if (y + dy < ballRadius) {
     dy = -dy;
-  } else if (y + dy > cnvHeight - ballRadius -10) {
+  } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       if ((y = y - paddleHeight)) {
         dy = -dy;
