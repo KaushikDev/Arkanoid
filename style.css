@@ -9,6 +9,84 @@
     font-family: "Nunito", sans-serif;
 }
 
+.game{
+    background: rgba(0,0,0,0.75);
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-modal{
+    background: rgba(255,255,255, 0.90);
+    height: 50%;
+    width: 50%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.game-modal__h1{
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
+}
+
+.game-modal__p{
+    padding: 1rem;
+    margin: 1rem;
+    font-size: 1rem;
+}
+
+.game-modal__btn {
+    background: #0095dd;
+    color: #fff;
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.game-modal__footer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(0,0,0,0.75);
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.game-modal__footer--anchor{
+    padding: .1rem;
+    color: #fff;
+    font-size: inherit;
+}
+
+@media screen and (min-width:300px) and (max-width:900px){
+    .game-modal{
+        background: rgba(255,255,255, 0.90);
+        height: auto;
+        width: 80%;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+
 canvas{
     background: #000;
     display: block;

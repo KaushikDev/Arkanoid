@@ -1,9 +1,18 @@
+let game = document.querySelector(".game");
+let gameModal = document.querySelector(".game-modal");
+let gameModal_h1 = document.querySelector(".game-modal__h1");
+let gameModal_p = document.querySelector(".game-modal__p");
+let gameModal_btn = document.querySelector(".game-modal__btn");
+
 //canvas variables
 let cnv = document.querySelector("#myCanvas");
 let ctx = cnv.getContext("2d"); //2d context to play with
 let cnvWidth = (cnv.width = window.innerWidth); //canvas width
 let cnvHeight = (cnv.height = window.innerHeight); //canvas height
 
+let raf;
+let toggle_raf = false;
+let game_state = "new";
 let ballRadius = 10;
 let x = cnvWidth / 2;
 let y = cnvHeight - 30;
@@ -71,10 +80,8 @@ const touchMoveHandler = (e) => {
   }
 };
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
-document.addEventListener("touchmove", touchMoveHandler, false);
+
+
 
 const collisionDetection = () => {
   for (let c = 0; c < brickColumnCount; c++) {
@@ -89,7 +96,7 @@ const collisionDetection = () => {
         ) {
           dy = -dy;
           b.status = 0;
-          soundHitTheBrick.play();
+          //soundHitTheBrick.play();
           score += score_multiplier;
           if(score >= max_score/4 && score < max_score/2){
             dx = 6;
@@ -107,10 +114,13 @@ const collisionDetection = () => {
             paddleWidth = cnvWidth/8;
           }
           if (score == max_score) {
-            alert(
-              "YOU WIN, CONGRATULATIONS!\nYOU SCORED " + score + " POINTS!!"
-            );
-            document.location.reload();
+            game.style.display = "flex";
+        gameModal_h1.innerHTML = "YOU WIN! CONGRATULATIONS!";
+        gameModal_p.innerHTML = "YOU SCORED " + score + " points.";
+        gameModal_btn.innerText = "Replay";
+        game_state = "replay";
+        toggle_raf = false;
+       // return;
           }
         }
       }
@@ -158,6 +168,9 @@ const drawBricks = () => {
         gradient.addColorStop(1, "#FF8A65");
         ctx.fillStyle = gradient; 
         ctx.fill();
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#fff";
+        ctx.stroke();
         ctx.closePath();
       }
     }
@@ -192,23 +205,24 @@ const draw = () => {
   } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       if ((y = y - paddleHeight)) {
-        soundBounceOffPaddle.play();
+       // soundBounceOffPaddle.play();
         dy = -dy;
       }
     } else {
 
       lives--;
       if (!lives) {
-        alert(
-          "GAME OVER!!\nYOU SCORED " + score + " points.\nPRESS 'OK' TO REPLAY."
-        );
-        document.location.reload();
+     //   console.log(raf);
+        game.style.display = "flex";
+        gameModal_h1.innerHTML = "GAME OVER!!";
+        gameModal_p.innerHTML = "YOU SCORED " + score + " points.";
+        gameModal_btn.innerText = "Replay";
+        game_state = "replay";
+        return;
       } else {
         //soundHitTheFloor.play();
         x = cnvWidth / 2;
         y = cnvHeight - 30;
-        // dx = 2;
-        // dy = -2;
         paddleX = (cnvWidth - paddleWidth) / 2;
       }
     }
@@ -222,7 +236,27 @@ const draw = () => {
 
   x += dx;
   y += dy;
+ //raf = requestAnimationFrame(draw);
+ if(toggle_raf){
   requestAnimationFrame(draw);
+ }
 };
-
-draw();
+raf = requestAnimationFrame(draw);
+//draw();
+const gameStart = () => {
+  if(game_state === "new"){
+    game.style.display = "none";
+    toggle_raf = true;
+    draw(toggle_raf);  
+  }
+  else if(game_state === "replay"){
+     document.location.reload();
+   
+  }
+     
+};
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("touchmove", touchMoveHandler, false);
+gameModal_btn.addEventListener("click", gameStart, false);
