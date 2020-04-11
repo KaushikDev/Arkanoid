@@ -4,15 +4,15 @@ let gameModal_h1 = document.querySelector(".game-modal__h1");
 let gameModal_p = document.querySelector(".game-modal__p");
 let gameModal_btn = document.querySelector(".game-modal__btn");
 
-//canvas variables
 let cnv = document.querySelector("#myCanvas");
-let ctx = cnv.getContext("2d"); //2d context to play with
-let cnvWidth = (cnv.width = window.innerWidth); //canvas width
-let cnvHeight = (cnv.height = window.innerHeight); //canvas height
+let ctx = cnv.getContext("2d");
+let cnvWidth = (cnv.width = window.innerWidth); 
+let cnvHeight = (cnv.height = window.innerHeight); 
 
 let raf;
 let toggle_raf = false;
 let game_state = "new";
+
 let ballRadius = 10;
 let x = cnvWidth / 2;
 let y = cnvHeight - 30;
@@ -39,7 +39,7 @@ let lives = 3;
 
 let soundBounceOffPaddle = new Audio("./assets/sounds/bounceOffPaddle.ogg");
 let soundHitTheFloor = new Audio("./assets/sounds/hitTheFloor.m4a");
-let soundHitTheBrick = new Audio("./assets/sounds/hitTheBrick.wav");
+let soundHitTheBrick = new Audio("./assets/sounds/hitTheBrick.mp3");
 let soundWin = new Audio("./assets/sounds/win.mp3");
 
 let bricks = [];
@@ -93,7 +93,7 @@ const collisionDetection = () => {
         ) {
           dy = -dy;
           b.status = 0;
-          //soundHitTheBrick.play();
+          soundHitTheBrick.play();
           score += score_multiplier;
           if (score >= max_score / 4 && score < max_score / 2) {
             dx = 6;
@@ -201,7 +201,7 @@ const draw = () => {
   } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       if ((y = y - paddleHeight)) {
-        // soundBounceOffPaddle.play();
+        soundBounceOffPaddle.play();
         dy = -dy;
       }
     } else {
