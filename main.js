@@ -19,7 +19,7 @@ let y = cnvHeight - 30;
 let dx = 5;
 let dy = -5;
 let paddleHeight = 10;
-let paddleWidth = cnvWidth / 4; //prev value 75
+let paddleWidth = cnvWidth / 4;
 let paddleX = (cnvWidth - paddleWidth) / 2;
 let paddleOffsetBottom = 10;
 let rightPressed = false;
@@ -32,15 +32,15 @@ let brickOffsetTop = 30;
 let brickOffsetLeft = 30;
 let brickRowCount = 10;
 let brickColumnCount = Math.floor(cnvWidth / (brickWidth + brickPadding));
-console.log("num of columns " + brickColumnCount);
 let score = 0;
 let score_multiplier = 5;
-let max_score = brickRowCount*brickColumnCount*score_multiplier;
+let max_score = brickRowCount * brickColumnCount * score_multiplier;
 let lives = 3;
 
-	let soundBounceOffPaddle =  new Audio("./assets/sounds/bounceOffPaddle.ogg");
-  let soundHitTheFloor =  new Audio("./assets/sounds/hitTheFloor.m4a");
-  let soundHitTheBrick =  new Audio("./assets/sounds/hitTheBrick.wav");
+let soundBounceOffPaddle = new Audio("./assets/sounds/bounceOffPaddle.ogg");
+let soundHitTheFloor = new Audio("./assets/sounds/hitTheFloor.m4a");
+let soundHitTheBrick = new Audio("./assets/sounds/hitTheBrick.wav");
+let soundWin = new Audio("./assets/sounds/win.mp3");
 
 let bricks = [];
 for (let c = 0; c < brickColumnCount; c++) {
@@ -80,9 +80,6 @@ const touchMoveHandler = (e) => {
   }
 };
 
-
-
-
 const collisionDetection = () => {
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
@@ -98,29 +95,28 @@ const collisionDetection = () => {
           b.status = 0;
           //soundHitTheBrick.play();
           score += score_multiplier;
-          if(score >= max_score/4 && score < max_score/2){
+          if (score >= max_score / 4 && score < max_score / 2) {
             dx = 6;
             dy = -6;
-            paddleWidth = cnvWidth/5;
-          }
-          else if(score >= max_score/2 && score < max_score*(3/4)){
+            paddleWidth = cnvWidth / 5;
+          } else if (score >= max_score / 2 && score < max_score * (3 / 4)) {
             dx = 7;
             dy = -7;
-            paddleWidth = cnvWidth/6;
-          }
-          else if(score >= max_score*(3/4) && score < max_score){
+            paddleWidth = cnvWidth / 6;
+          } else if (score >= max_score * (3 / 4) && score < max_score) {
             dx = 8;
             dy = -8;
-            paddleWidth = cnvWidth/8;
+            paddleWidth = cnvWidth / 8;
           }
           if (score == max_score) {
+            soundWin.play();
             game.style.display = "flex";
-        gameModal_h1.innerHTML = "YOU WIN! CONGRATULATIONS!";
-        gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
-        gameModal_btn.innerText = "Replay";
-        game_state = "replay";
-        toggle_raf = false;
-       // return;
+            gameModal_h1.innerHTML = "YOU WIN! CONGRATULATIONS!";
+            gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
+            gameModal_btn.innerText = "Replay";
+            game_state = "replay";
+            toggle_raf = false;
+            
           }
         }
       }
@@ -166,7 +162,7 @@ const drawBricks = () => {
         );
         gradient.addColorStop(0, "#EF5350");
         gradient.addColorStop(1, "#FF8A65");
-        ctx.fillStyle = gradient; 
+        ctx.fillStyle = gradient;
         ctx.fill();
         ctx.lineWidth = 2;
         ctx.strokeStyle = "#fff";
@@ -205,14 +201,12 @@ const draw = () => {
   } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       if ((y = y - paddleHeight)) {
-       // soundBounceOffPaddle.play();
+        // soundBounceOffPaddle.play();
         dy = -dy;
       }
     } else {
-
       lives--;
       if (!lives) {
-     //   console.log(raf);
         game.style.display = "flex";
         gameModal_h1.innerHTML = "GAME OVER!!";
         gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
@@ -236,24 +230,19 @@ const draw = () => {
 
   x += dx;
   y += dy;
- //raf = requestAnimationFrame(draw);
- if(toggle_raf){
-  requestAnimationFrame(draw);
- }
+   if (toggle_raf) {
+    requestAnimationFrame(draw);
+  }
 };
 raf = requestAnimationFrame(draw);
-//draw();
 const gameStart = () => {
-  if(game_state === "new"){
+  if (game_state === "new") {
     game.style.display = "none";
     toggle_raf = true;
-    draw(toggle_raf);  
+    draw(toggle_raf);
+  } else if (game_state === "replay") {
+    document.location.reload();
   }
-  else if(game_state === "replay"){
-     document.location.reload();
-   
-  }
-     
 };
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
