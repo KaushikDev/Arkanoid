@@ -208,21 +208,17 @@ const draw = () => {
   } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
       soundBounceOffPaddle.play();
-      // if ((y = y - paddleHeight)) {
-      
-      //   dy = -dy;
-      // 
-      let collidePoint = x - (paddleX + paddleWidth/2);
-        
-      // NORMALIZE THE VALUES
-      collidePoint = collidePoint / (paddleWidth/2);
-      
-      // CALCULATE THE ANGLE OF THE BALL
-      let angle = collidePoint * Math.PI/3;
-          
-          
-      dx = speed * Math.sin(angle);
-      dy = - speed * Math.cos(angle);
+      if ((y = y - paddleHeight)) {
+        let collidePoint = x - (paddleX + paddleWidth/2);
+        // NORMALIZE THE VALUES
+        collidePoint = collidePoint / (paddleWidth/2);
+         // CALCULATE THE ANGLE OF THE BALL
+        let angle = collidePoint * Math.PI/3;
+                    
+        dx = speed * Math.sin(angle);
+        dy = - speed * Math.cos(angle);
+      }
+     
 
     } else {
       lives--;
