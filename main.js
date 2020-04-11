@@ -18,6 +18,7 @@ let x = cnvWidth / 2;
 let y = cnvHeight - 30;
 let dx = 5;
 let dy = -5;
+let speed = 6;
 let paddleHeight = 10;
 let paddleWidth = cnvWidth / 4;
 let paddleX = (cnvWidth - paddleWidth) / 2;
@@ -97,15 +98,19 @@ const collisionDetection = () => {
           b.status = 0;
           soundHitTheBrick.play();
           score += score_multiplier;
+         
           if (score >= max_score / 4 && score < max_score / 2) {
+            speed = 6;
             dx = 6;
             dy = -6;
             paddleWidth = cnvWidth / 5;
           } else if (score >= max_score / 2 && score < max_score * (3 / 4)) {
+            speed = 7;
             dx = 7;
             dy = -7;
             paddleWidth = cnvWidth / 6;
           } else if (score >= max_score * (3 / 4) && score < max_score) {
+            speed = 8;
             dx = 8;
             dy = -8;
             paddleWidth = cnvWidth / 8;
@@ -202,10 +207,23 @@ const draw = () => {
     dy = -dy;
   } else if (y + dy > cnvHeight - ballRadius - paddleOffsetBottom) {
     if (x > paddleX && x < paddleX + paddleWidth) {
-      if ((y = y - paddleHeight)) {
-        soundBounceOffPaddle.play();
-        dy = -dy;
-      }
+      soundBounceOffPaddle.play();
+      // if ((y = y - paddleHeight)) {
+      
+      //   dy = -dy;
+      // 
+      let collidePoint = x - (paddleX + paddleWidth/2);
+        
+      // NORMALIZE THE VALUES
+      collidePoint = collidePoint / (paddleWidth/2);
+      
+      // CALCULATE THE ANGLE OF THE BALL
+      let angle = collidePoint * Math.PI/3;
+          
+          
+      dx = speed * Math.sin(angle);
+      dy = - speed * Math.cos(angle);
+
     } else {
       lives--;
       if (!lives) {
