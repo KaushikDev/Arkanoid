@@ -116,7 +116,7 @@ const collisionDetection = () => {
           if (score == max_score) {
             game.style.display = "flex";
         gameModal_h1.innerHTML = "YOU WIN! CONGRATULATIONS!";
-        gameModal_p.innerHTML = "YOU SCORED " + score + " points.";
+        gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
         gameModal_btn.innerText = "Replay";
         game_state = "replay";
         toggle_raf = false;
@@ -215,7 +215,7 @@ const draw = () => {
      //   console.log(raf);
         game.style.display = "flex";
         gameModal_h1.innerHTML = "GAME OVER!!";
-        gameModal_p.innerHTML = "YOU SCORED " + score + " points.";
+        gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
         gameModal_btn.innerText = "Replay";
         game_state = "replay";
         return;
