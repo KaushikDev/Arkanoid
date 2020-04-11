@@ -38,10 +38,10 @@ let max_score = brickRowCount * brickColumnCount * score_multiplier;
 let lives = 3;
 
 let soundGameStart = new Audio("./assets/sounds/gameStart.mp3");
-let soundBounceOffPaddle = new Audio("./assets/sounds/bounceOffPaddle.ogg");
+let soundBounceOffPaddle = new Audio("./assets/sounds/hitThePaddle.ogg");
 let soundHitTheFloor = new Audio("./assets/sounds/hitTheFloor.mp3");
 let soundHitTheBrick = new Audio("./assets/sounds/hitTheBrick.mp3");
-let soundWin = new Audio("./assets/sounds/win.mp3");
+let soundWin = new Audio("./assets/sounds/gameWin.mp3");
 let soundGameOver = new Audio("./assets/sounds/gameOver.mp3");
 
 let bricks = [];
