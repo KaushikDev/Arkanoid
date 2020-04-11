@@ -37,10 +37,12 @@ let score_multiplier = 5;
 let max_score = brickRowCount * brickColumnCount * score_multiplier;
 let lives = 3;
 
+let soundGameStart = new Audio("./assets/sounds/gameStart.mp3");
 let soundBounceOffPaddle = new Audio("./assets/sounds/bounceOffPaddle.ogg");
-let soundHitTheFloor = new Audio("./assets/sounds/hitTheFloor.m4a");
+let soundHitTheFloor = new Audio("./assets/sounds/hitTheFloor.mp3");
 let soundHitTheBrick = new Audio("./assets/sounds/hitTheBrick.mp3");
 let soundWin = new Audio("./assets/sounds/win.mp3");
+let soundGameOver = new Audio("./assets/sounds/gameOver.mp3");
 
 let bricks = [];
 for (let c = 0; c < brickColumnCount; c++) {
@@ -207,6 +209,7 @@ const draw = () => {
     } else {
       lives--;
       if (!lives) {
+        soundGameOver.play();
         game.style.display = "flex";
         gameModal_h1.innerHTML = "GAME OVER!!";
         gameModal_p.innerHTML = "YOU SCORED " + score + " POINTS.";
@@ -214,7 +217,7 @@ const draw = () => {
         game_state = "replay";
         return;
       } else {
-        //soundHitTheFloor.play();
+        soundHitTheFloor.play();
         x = cnvWidth / 2;
         y = cnvHeight - 30;
         paddleX = (cnvWidth - paddleWidth) / 2;
@@ -237,6 +240,7 @@ const draw = () => {
 raf = requestAnimationFrame(draw);
 const gameStart = () => {
   if (game_state === "new") {
+    soundGameStart.play();
     game.style.display = "none";
     toggle_raf = true;
     draw(toggle_raf);
